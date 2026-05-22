@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERKS - Perch Perkins Token</title>
+    <style>
+        /* --- CORE CONFIGURATION & THEMING --- */
+        :root {
+            --bg-dark: #060913;
+            --card-dark: #0a0f1d;
+            --neon-cyan: #00ffcc;
+            --neon-blue: #00bfff;
+            --neon-purple: #b026ff;
+            --neon-orange: #ff6b00;
+            --neon-yellow: #ffcc00;
+            --text-main: #ffffff;
+            --text-muted: #5f7596;
+            --border-color: #16223f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        .cyber-heading {
+            font-family: Arial Black, sans-serif;
+            text-transform: uppercase;
+            font-stretch: expanded;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(6, 9, 19, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: Arial Black, sans-serif;
+            font-size: 1.4rem;
+            background: linear-gradient(to right, var(--neon-cyan), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-buy-nav {
+            border: 1px solid var(--neon-blue);
+            background: transparent;
+            color: var(--neon-blue);
+            padding: 8px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 100px 20px 60px;
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-tag {
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-tag::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 2px;
+            background: var(--neon-blue);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+        }
+
+        /* --- 1. ABOUT US SECTION --- */
+        .about-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .about-text strong {
+            color: var(--text-main);
+        }
+
+        /* --- 2. TOKENOMICS SECTION --- */
+        .chart-box {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--neon-cyan) 0% 40%, 
+                var(--neon-purple) 40% 60%, 
+                var(--neon-green, #00ff66) 60% 80%, 
+                var(--neon-yellow) 80% 90%, 
+                var(--neon-orange) 90% 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chart-box::before {
+            content: '';
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background-color: var(--bg-dark);
+            border-radius: 50%;
+        }
+        .chart-center-text {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+        }
+        .chart-center-text h4 {
+            font-family: Arial Black, sans-serif;
+            font-size: 2.5rem;
+            color: var(--neon-blue);
+        }
+        .chart-center-text p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .supply-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .supply-card {
+            background: var(--card-dark);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .supply-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .supply-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .supply-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .supply-pct {
+            font-family: Arial Black, sans-serif;
+            font-size: 1.3rem;
+        }
+        .supply-amount {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* --- 3. GUIDE SECTION --- */
+        .guide-box {
+            background-color: var(--card-dark);
+            border: 1px solid var(--border-color);
+            padding: 30px 20px;
+            border-radius: 4px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .guide-step {
+            font-family: Arial Black, sans-serif;
+            font-size: 3rem;
+            color: #12213d;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+        .guide-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .guide-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* --- 4. INFO TOKEN SECTION --- */
+        .info-container {
+            background-color: var(--card-dark);
+            border: 1px solid var(--border-color);
+            padding: 25px 20px;
+            border-radius: 4px;
+            text-align: left;
+        }
+        .ca-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .ca-value {
+            color: var(--neon-cyan);
+            font-size: 0.78rem;
+            word-break: break-all;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .btn-copy {
+            width: 100%;
+            border: 1px solid var(--neon-blue);
+            background: transparent;
+            color: var(--neon-blue);
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .info-row {
+            border-top: 1px solid var(--border-color);
+            padding: 15px 0;
+        }
+        .info-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .info-val {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* --- 5. TERMS SECTION --- */
+        .terms-box {
+            text-align: left;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        .terms-box p {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">PERKS</div>
+        <a href="#guide" class="btn-buy-nav">BUY $PERKS</a>
+    </header>
+
+    <section id="about">
+        <div class="section-tag">ABOUT US</div>
+        <h2 class="cyber-heading">Built for community, not speculation.</h2>
+        
+        <p class="about-text">
+            <strong>Perch Perkins (PERKS)</strong> is an Arbitrum-native utility token designed to power a decentralized community ecosystem with lightning-fast speeds and ultra-low transaction fees.
+        </p>
+        <p class="about-text">
+            The total supply of <strong>1 Billion PERKS is entirely fixed</strong>; zero additional tokens can ever be minted. All core contracts are verified, audited, and transparently viewable by the public.
+        </p>
+        <p class="about-text">
+            40% of the overall supply is locked securely in decentralized exchange pools to guarantee stable network liquidity and long-term project safety.
+        </p>
+    </section>
+
+    <section id="supply">
+        <div class="section-tag">TOKENOMICS</div>
+        <h2 class="cyber-heading">Supply Allocation</h2>
+        
+        <div class="chart-box">
+            <div class="chart-center-text">
+                <h4>1B</h4>
+                <p>FIXED SUPPLY</p>
+            </div>
+        </div>
+
+        <div class="supply-list">
+            <div class="supply-card">
+                <div class="supply-info">
+                    <div class="dot" style="background-color: var(--neon-cyan);"></div>
+                    <div>
+                        <div class="supply-label">DEX Liquidity</div>
+                        <div class="supply-sub">Locked Pools</div>
+                    </div>
+                </div>
+                <div class="supply-value">
+                    <div class="supply-pct" style="color: var(--neon-cyan);">40%</div>
+                    <div class="supply-amount">400,000,000 PERKS</div>
+                </div>
+            </div>
+
+            <div class="supply-card">
+                <div class="supply-info">
+                    <div class="dot" style="background-color: var(--neon-purple);"></div>
+                    <div>
+                        <div class="supply-label">Team / Founders</div>
+                        <div class="supply-sub">Vested Allocation</div>
+                    </div>
+                </div>
+                <div class="supply-value">
+                    <div class="supply-pct" style="color: var(--neon-purple);">20%</div>
+                    <div class="supply-amount">200,000,000 PERKS</div>
+                </div>
+            </div>
+
+            <div class="supply-card">
+                <div class="supply-info">
+                    <div class="dot" style="background-color: #00ff66;"></div>
+                    <div>
+                        <div class="supply-label">Marketing & Ecosystem</div>
+                        <div class="supply-sub">Growth & Partnerships</div>
+                    </div>
+                </div>
+                <div class="supply-value">
+                    <div class="supply-pct" style="color: #00ff66;">20%</div>
+                    <div class="supply-amount">200,000,000 PERKS</div>
+                </div>
+            </div>
+
+            <div class="supply-card">
+                <div class="supply-info">
+                    <div class="dot" style="background-color: var(--neon-yellow);"></div>
+                    <div>
+                        <div class="supply-label">Reserves</div>
+                        <div class="supply-sub">Development Funds</div>
+                    </div>
+                </div>
+                <div class="supply-value">
+                    <div class="supply-pct" style="color: var(--neon-yellow);">10%</div>
+                    <div class="supply-amount">100,000,000 PERKS</div>
+                </div>
+            </div>
+
+            <div class="supply-card">
+                <div class="supply-info">
+                    <div class="dot" style="background-color: var(--neon-orange);"></div>
+                    <div>
+                        <div class="supply-label">Airdrop / Community</div>
+                        <div class="supply-sub">Public Distribution</div>
+                    </div>
+                </div>
+                <div class="supply-value">
+                    <div class="supply-pct" style="color: var(--neon-orange);">10%</div>
+                    <div class="supply-amount">100,000,000 PERKS</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="guide">
+        <div class="section-tag">GUIDE</div>
+        <h2 class="cyber-heading">How To Buy $PERKS</h2>
+
+        <div class="guide-box">
+            <div class="guide-step">01</div>
+            <div class="guide-title">Set Up a Web3 Wallet</div>
+            <div class="guide-desc">Download a secure, reputable Web3 browser extension or mobile wallet. Generate your private key phrase, secure it offline, and make sure to add or switch your network to the Arbitrum Layer-2 chain.</div>
+        </div>
+
+        <div class="guide-box">
+            <div class="guide-step">02</div>
+            <div class="guide-title">Deposit Native Gas Tokens</div>
+            <div class="guide-desc">Acquire Ethereum (ETH) from your preferred cryptocurrency exchange platform. Withdraw the funds directly to your wallet address using the Arbitrum network option to cover minimal transaction network fees.</div>
+        </div>
+
+        <div class="guide-box">
+            <div class="guide-step">03</div>
+            <div class="guide-title">Connect to a DEX & Swap</div>
+            <div class="guide-desc">Navigate to a supported decentralized exchange (DEX) operating on Arbitrum. Connect your active wallet, paste the official $PERKS token contract address, and execute your swap using your deposited tokens.</div>
+        </div>
+
+        <div class="guide-box">
+            <div class="guide-step">04</div>
+            <div class="guide-title">Import Token Contract</div>
+            <div class="guide-desc">If your tokens do not appear automatically after the transaction clears, go to your wallet dashboard, select "Import Custom Token," and paste the verified token address to monitor your balance.</div>
+        </div>
+    </section>
+
+    <section id="info">
+        <div class="section-tag">DATA</div>
+        <h2 class="cyber-heading">Token Info</h2>
+
+        <div class="info-container">
+            <div class="ca-title">CONTRACT ADDRESS • L2 ARBITRUM NETWORK</div>
+            <div class="ca-value" id="contractAddress">0x1111222233334444555566667777888899990000</div>
+            
+            <button class="btn-copy" onclick="copyAddress()">📋 COPY ADDRESS</button>
+
+            <div class="info-row">
+                <div class="info-label">Token Name</div>
+                <div class="info-val">Perch Perkins</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Symbol</div>
+                <div class="info-val">$PERKS</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Decimals</div>
+                <div class="info-val">18</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Network</div>
+                <div class="info-val">Arbitrum</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Total Supply</div>
+                <div class="info-val">1,000,000,000</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Supply Type</div>
+                <div class="info-val" style="color: var(--neon-cyan);">Fixed ✓</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="terms">
+        <div class="section-tag">LEGAL</div>
+        <h2 class="cyber-heading">Terms & Conditions</h2>
+        <div class="terms-box">
+            <p><strong>Last Modified: Mei 22, 2026</strong></p>
+            <p>The digital properties managed under our portal represent distributed utility assets. By interacting with the smart contracts or holding $PERKS, you acknowledge full structural risks associated with decentralized networks.</p>
+            <p>All protocol functionalities, automated market mechanisms, and liquidity pairings are governed algorithmically on the Arbitrum chain without central liability.</p>
+        </div>
+    </section>
+
+    <script>
+        function copyAddress() {
+            const addressText = document.getElementById('contractAddress').innerText;
+            navigator.clipboard.writeText(addressText).then(() => {
+                alert('Contract Address successfully copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+</body>
+  </html>
